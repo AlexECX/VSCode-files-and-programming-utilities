@@ -1,0 +1,292 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile/Build C++ (g++) ",
+            "type": "shell",
+            "windows" :{
+                "command": "cd '${workspaceFolder:C++}' \n g++",
+                "args": [
+                    "-I./ressource", "-I./include", "-I./lib", "-L./lib", "src/*.cpp", "ressource/*.cpp", "-std=c++11", 
+                    // "-g", "-c", "src/*.cpp", "-I", "./include",
+                    // "\r\n",
+                    // "g++", "-g", "*.o", "-o","./Debug/win_g++.exe",
+                   // "\r\n",
+                   // "Move-Item", "-Path", ".\\*.o", "-Destination", "'${workspaceFolder:C++}\\Debug\\dot_Objects\\Win_vs'"
+                ],
+                "options": {
+                    "cwd": "'${workspaceFolder:C++}'"
+                }
+            },
+            "linux": {
+                "command": "g++",
+                "args": [
+                    "-g", "-c", "src/*.cpp", "-I", "./include",
+                    "\n",
+                    "g++", "-g", "*.o", "-o","./Debug/linux_g++.exe",
+                    "\n",
+                    "mv", "*.o", "./Debug/dot_Objects/"
+                ]
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            // "group": {
+            //     "kind": "build",
+            //     "isDefault": true
+            // },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile/Build C++ (WSL g++)",
+            "type": "shell",
+            "windows": {
+                "command": "cd '${workspaceFolder:C++}' \n wsl",
+                "args": [
+                    "g++", "-std=c++11", "-c", "-I", "./include", "-I", "./lib", "-I", "./ressource", "-L", "./lib", "src/*.cpp", "ressource/*.cpp", "-fpermissive",
+                    "\n",
+                    "wsl", "g++", "-g", "-L", "./lib", "*.o", "-o", "Debug/wsl.out",
+                    "\n",
+                    "wsl", "mv", "*.o", "./Debug/dot_Objects/WSL"
+                ]  
+            },
+            "options": {
+                "shell": {
+                    
+                }
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile/Build VC++ x86 (Visual Studio 15 2017)",
+            "type": "shell",
+            "windows": {
+                "command": "C:\\Users\\alex1\\OneDrive\\Documents\\'Visual Studio Code'\\Template\\template_workspace\\C++Utilities\\scripts\\VS_build.bat ",
+                "args": ["x86", "'${workspaceFolder:C++}'"]
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher":[]
+        },
+        {
+            "label": "Compile/Build VC++ x64 (Visual Studio 15 2017)",
+            "type": "shell",
+            "windows": {
+                "command": "'${workspaceFolder:C++Utilities}\\scripts\\VS_build.bat'",
+                "args": ["x64", "'${workspaceFolder:C++}'"]
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Generate VS 15 2017 Solution (x64)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "'${workspaceFolder:C++}'",
+                "-B'${workspaceFolder:C++}/_builds/Win_build/x64'",
+                "-G '\"Visual Studio 15 2017 Win64\" "
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Generate VS 15 2017 Solution (x86)",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "'${workspaceFolder:C++}'",
+                "-B'${workspaceFolder:C++}/_builds/Win_build/x86'",
+                "-G '\"Visual Studio 15 2017\"' "
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Generate Unix Makefiles (Debug)",
+            "type": "shell",
+            "linux": {
+                "command": "cmake",
+                "args": [
+                    ".",
+                    "-B'${workspaceFolder:C++}/_builds/Unix_build/Debug'",
+                    "-DCMAKE_BUILD_TYPE=Debug",
+                    "-G '\"Unix Makefiles\"' "
+                ]
+            },
+            "windows": {
+                "command": "wsl",
+                "args": [
+                    "cmake",
+                    ".",
+                    "-B'${workspaceFolder:C++}/_builds/Unix_build/Debug'",
+                    "-DCMAKE_BUILD_TYPE=Debug",
+                    "-G '\"Unix Makefiles\"' "
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Generate Unix Makefiles (Release)",
+            "type": "shell",
+            "linux": {
+                "command": "cmake",
+                "args": [
+                    ".",
+                    "-B'${workspaceFolder:C++}/_builds/Unix_build/Release'",
+                    "-DCMAKE_BUILD_TYPE=Release",
+                    "-G '\"Unix Makefiles\"' "
+                ]
+            },
+            "windows": {
+                "command": "wsl",
+                "args": [
+                    "cmake",
+                    ".",
+                    "-B'${workspaceFolder:C++}/_builds/Unix_build/Release'",
+                    "-DCMAKE_BUILD_TYPE=Release",
+                    "-G '\"Unix Makefiles\"' "
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Debug (x64)",
+            "type": "shell",
+            "command": "& '${workspaceFolder:C++}\\scripts\\g.exe'",
+            "args": [
+                //"\n./g.exe ${workspaceRoot}/CMakeLists.txt\n",
+                "'${workspaceFolder:C++}/CMakeLists.txt' \n",
+                "cmake",
+                "--build",
+                "'${workspaceFolder:C++}_builds/Win_build/x64'",
+                "--config",
+                "Debug"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Debug (x86)",
+            "type": "shell",
+            "command": "& '${workspaceFolder:C++Utilities}\\scripts\\g.exe'",
+            "args": [
+                //"\n./g.exe ${workspaceRoot}/CMakeLists.txt\n",
+                "'${workspaceFolder:C++}/CMakeLists.txt' \n",
+                "cmake",
+                "--build",
+                "'${workspaceFolder:C++}/_builds/Win_build/x86'",
+                "--config",
+                "Debug"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Release (x64)",
+            "type": "shell",
+            "command": "& '${workspaceFolder:C++Utilities}\\scripts\\g.exe'", 
+            "args": [
+                "'${workspaceFolder:C++}/CMakeLists.txt' \n",
+                "cmake",
+                "--build",
+                "'${workspaceFolder:C++}/_builds/Win_build/x64'",
+                "--config",
+                "Release"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Release (x86)",
+            "type": "shell",
+            "command": "& '${workspaceFolder:C++Utilities}\\scripts\\g.exe'",  
+            "args": [
+                "'${workspaceFolder:C++}/CMakeLists.txt' \n",
+                "cmake",
+                "--build",
+                "'${workspaceFolder:C++}/_builds/Win_build/x86'",
+                "--config",
+                "Release"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Unix Makefiles (Debug)",
+            "type": "shell",
+            "linux": {
+                "command": "'${workspaceFolder:C++Utilities}\\scripts\\g.exe'",
+                "args": [
+                    "'{workspaceFolder:C++}/CMakeLists.txt' \n",
+                    "cmake",
+                    "--build",
+                    "'{workspaceFolder:C++}/_builds/Unix_build/Debug'"
+                ]
+            },
+            "windows": {
+                "command": "& '${workspaceFolder:C++Utilities}\\scripts\\g.exe'",
+                "args": [
+                    "'{workspaceFolder:C++}/CMakeLists.txt' \n",
+                    "wsl",
+                    "cmake",
+                    "--build",
+                    "'{workspaceFolder:C++}/_builds/Unix_build/Debug'"
+                ]
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Unix Makefiles (Release)",
+            "type": "shell",
+            "linux": {
+                "command": "C:\\Users\\alex1\\OneDrive\\Documents\\'Visual Studio Code'\\Template\\template_workspace\\C++Utilities\\scripts\\g.exe '${workspaceRoot}/CMakeLists.txt' \n",
+                "args": [
+                    "cmake",
+                    "--build",
+                    "_builds/Unix_build/Release"
+                ]
+            },
+            "windows": {
+                "command": "C:\\Users\\alex1\\OneDrive\\Documents\\'Visual Studio Code'\\Template\\template_workspace\\C++Utilities\\scripts\\g.exe '${workspaceRoot}/CMakeLists.txt' \n",
+                "args": [
+                    "wsl",
+                    "cmake",
+                    "--build",
+                    "_builds/Unix_build/Release"
+                ]
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+    ]
+}

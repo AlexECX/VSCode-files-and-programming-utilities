@@ -1,0 +1,168 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run current",
+            "type": "shell",
+            "command": "cd '${fileDirname}'",
+            "args": [
+                "\n",
+                "python",
+                "'${fileBasename}'"
+            ],
+            "linux": {
+                "args": [
+                    "\n",
+                    "python3",
+                    "'${fileBasename}'"
+                ],
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run current (WSL)",
+            "type": "shell",
+            "command": "cd '${fileDirname}' \n wsl",
+            "args": [
+                "python3",
+                "'${fileBasename}'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Pydoc from current file",
+            "type": "shell",
+            "command": "cd '${fileDirname}'",
+            "args": [
+                "\n",
+                "python -m pydoc -w",
+                "'${file}'"
+            ],
+            "linux": {
+                "args": [
+                    "\n",
+                    "python3 -m pydoc -w",
+                    "'${file}'"
+                ],
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Sphinx root generate",
+            "type": "shell",
+            "command": "sphinx-quickstart",
+            "args": [
+                "'${workspaceFolder:Build}/Sphinx/source'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Sphinx Add current fileDir",
+            "type": "shell",
+            "windows": {
+                "command": "cd '${workspaceFolder:Build}/Sphinx/scripts/' \n",
+                "args": [
+                    "./a.exe",
+                    "'${fileDirname}'"
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Sphinx API doc",
+            "type": "shell",
+            "command": "sphinx-apidoc -fMeT -o",  //add E for no headings
+            "args": [
+                "'${workspaceFolder:Build}/Sphinx/source/apiout'",
+                "'${workspaceFolder:1714}'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Sphinx build HTML doc",
+            "type": "shell",
+            "command": "sphinx-build -b html",
+            "args": [
+                "'${workspaceFolder:Build}/Sphinx/source'",
+                "'${workspaceFolder:Build}/Sphinx/source/_build/html'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Sphinx build latex doc",
+            "type": "shell",
+            "command": "sphinx-build -b latex",
+            "args": [
+                "'${workspaceFolder:Build}/Sphinx/source'",
+                "'${workspaceFolder:Build}/Sphinx/source/_build/latex'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Latex to PDF",
+            "type": "shell",
+            "command": "start '${workspaceFolder:PythonUtilities}/miktex/LatexPDF.bat'",
+            "args": [
+                "'mini-ordinateur",
+                "\\\"${workspaceFolder:PythonUtilities}\\miktex\\texmfs\\install\\miktex\\bin\\latex.exe\\\"",
+                "\\\"${workspaceFolder:PythonUtilities}\\miktex\\texmfs\\install\\miktex\\bin\\dvips.exe\\\"",
+                "\\\"${workspaceFolder:PythonUtilities}\\miktex\\texmfs\\install\\miktex\\bin\\ps2pdf.exe\\\" '"
+
+            ],
+            "options": {
+                "cwd": "${workspaceFolder:Build}/Sphinx/source/_build/latex",
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "HTML to PDF",
+            "type": "shell",
+            "command": "& '${workspaceFolder:PythonUtilities}/wkhtmltopdf/bin/wkhtmltopdf.exe'",
+            "args": [
+                "page",
+                "'${file}'",
+                "'${workspaceFolder:CDBS}/doc/${fileBasenameNoExtension}.pdf'"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "PyInstaller file compile",
+            "type": "shell",
+            "windows": {
+                "command": "pyinstaller",
+                "args": [
+                    "--onefile",
+                    "--windowed",
+                    "--paths '${fileDirname}'",
+                    "--workpath '${workspaceFolder:Build}/PyInstaller/windows/_build'",
+                    "--distpath '${workspaceFolder:Build}/PyInstaller/windows/_dist'",
+                    "--specpath '${workspaceFolder:Build}/PyInstaller/windows/_spec'",
+                    "'${file}'"
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "PyInstaller file compile (wsl)",
+            "type": "shell",
+            "windows": {
+                "command": "wsl pyinstaller",
+                "args": [
+                    "--onefile",
+                    "--windowed",
+                    //"--paths '${relativeFile}'",
+                    "--workpath './linux/_build'",
+                    "--distpath './linux/_dist'",
+                    "--specpath './linux/_spec'",
+                    "'${relativeFile}'"
+                ],
+                "options": {
+                    "cwd": "'${workspaceFolder:PythonUtilities}/PyInstaller'"
+                }
+            },
+            "problemMatcher": [],
+        }
+    ]
+}

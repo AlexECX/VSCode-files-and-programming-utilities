@@ -1,0 +1,14 @@
+commandes
+sphinx-quickstart <directory to be root>
+sphinx-apidoc -f -o ./apioutput <path to .py directory>
+##For html to pdf
+make html
+C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf page <pathToHTMLTarget> outputName.pdf
+
+##For latex to pdf
+make latex | sphinx-build -b latex . ./_build/napoleon
+(From latex command line in C:\miktex, start the prompt)
+cd Path/_build/napoleon
+latex MyFileName.tex
+divps MyFileName.dvi
+ps2pdf MyFileName.pdf
